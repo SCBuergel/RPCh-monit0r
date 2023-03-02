@@ -19,7 +19,7 @@ def newFig():
     fig.autofmt_xdate(rotation=45)
     ax.xaxis.set_major_formatter(xfmt)
     ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
-    ax.set_ylim(0.05, 30)
+    ax.set_ylim(0.4, 30)
 
 exitProvider = "https://primary.gnosis-chain.rpc.hoprtech.net"
 endpoint = "http://localhost:8080/?exit-provider=" + exitProvider
