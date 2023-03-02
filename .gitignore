@@ -1,3 +1,4 @@
+output/latencies.csv
 test.py
 output/*.png
 *.swp
