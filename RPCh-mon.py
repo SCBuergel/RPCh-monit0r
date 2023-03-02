@@ -30,7 +30,6 @@ results = []
 dfAll = pd.read_csv("output/latencies.csv", compression="zip")
 dfAll["time"] = dfAll["time"].astype("datetime64[s]")
 dfAll = dfAll.set_index("time")
-print(dfAll)
 
 while True:
     start = datetime.datetime.now()
