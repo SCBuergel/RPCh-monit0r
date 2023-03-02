@@ -1,5 +1,6 @@
+output/latencies.csv
 test.py
-*.png
+output/*.png
 *.swp
 
 # Byte-compiled / optimized / DLL files
