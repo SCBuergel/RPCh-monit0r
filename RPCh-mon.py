@@ -8,10 +8,10 @@ import datetime
 
 def newFig():
     plt.title("RPCh request latency over time")
-    plt.xlabel("Time")
+    plt.xlabel("Time (UTC)")
     plt.ylabel("Latency [s]")
     plt.yscale("log")
-    plt.yticks([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20])
+    plt.yticks([0.1, 0.2, 0.3, 0.4, 0.5, 1, 2, 3, 4, 5, 10, 20])
     ax = plt.gca()
     fig = plt.gcf()
     fig.set_size_inches(7, 7)
@@ -19,25 +19,24 @@ def newFig():
     fig.autofmt_xdate(rotation=45)
     ax.xaxis.set_major_formatter(xfmt)
     ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
-    ax.set_ylim(0.4, 30)
+    ax.set_ylim(0.06, 30)
 
 exitProvider = "https://primary.gnosis-chain.rpc.hoprtech.net"
 endpoint = "http://localhost:8080/?exit-provider=" + exitProvider
 timeout = 5
 web3 = Web3(Web3.HTTPProvider(endpoint, request_kwargs={'timeout': timeout}))
-results = []
 
 dfAll = pd.read_csv("output/latencies.csv", compression="zip")
 dfAll["time"] = dfAll["time"].astype("datetime64[s]")
 dfAll = dfAll.set_index("time")
 
 while True:
-    start = datetime.datetime.now()
+    start = datetime.datetime.utcnow()
     try:
         blockNo = web3.eth.get_block_number()
     except:
         blockNo = 0
-    end = datetime.datetime.now()
+    end = datetime.datetime.utcnow()
     latency = end - start
     print(f"block number: {blockNo}, took {latency}")
     dfAll.loc[start] = [latency.total_seconds(), blockNo]
@@ -55,18 +54,21 @@ while True:
     df1hNoResponse = df1h[df1h["blockNumber"] == 0]
 
     plt.figure(0)
+    plt.figure(0).clear()
     newFig()
     plt.plot(dfAllGotResponse["latency"], "bx")
     plt.plot(dfAllNoResponse["latency"], "rx")
     plt.savefig("output/latencies-all.png")
 
     plt.figure(1)
+    plt.figure(1).clear()
     newFig()
     plt.plot(df24hGotResponse["latency"], "bx")
     plt.plot(df24hNoResponse["latency"], "rx")
     plt.savefig("output/latencies-24h.png")
 
     plt.figure(2)
+    plt.figure(2).clear()
     newFig()
     plt.plot(df1hGotResponse["latency"], "bx")
     plt.plot(df1hNoResponse["latency"], "rx")
