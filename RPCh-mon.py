@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.ticker
 import datetime
+from os.path import exists
 
 def newFig():
     plt.title("RPCh request latency over time")
@@ -36,12 +37,16 @@ def newHist():
 exitProvider = "https://primary.gnosis-chain.rpc.hoprtech.net"
 endpoint = "http://localhost:8080/?exit-provider=" + exitProvider
 timeout = 5
+csv = "output/latencies.csv"
 web3 = Web3(Web3.HTTPProvider(endpoint, request_kwargs={'timeout': timeout}))
+logbins = np.geomspace(0.06, 30, 10)
 
-dfAll = pd.read_csv("output/latencies.csv", compression="zip")
+if exists(csv):
+    dfAll = pd.read_csv(csv, compression="zip")
+else:
+    dfAll = pd.DataFrame(columns=["time", "latency", "blockNumber"])
 dfAll["time"] = dfAll["time"].astype("datetime64[s]")
 dfAll = dfAll.set_index("time")
-logbins = np.geomspace(0.06, 30, 10)
 
 while True:
     start = datetime.datetime.utcnow()
