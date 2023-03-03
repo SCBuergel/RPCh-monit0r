@@ -14,7 +14,7 @@ def newFig():
     plt.yticks([0.1, 0.2, 0.3, 0.4, 0.5, 1, 2, 3, 4, 5, 10, 20])
     ax = plt.gca()
     fig = plt.gcf()
-    fig.set_size_inches(7, 7)
+    fig.set_size_inches(8, 8)
     xfmt = mdates.DateFormatter('%d-%m-%y %H:%M:%S')
     fig.autofmt_xdate(rotation=45)
     ax.xaxis.set_major_formatter(xfmt)
@@ -58,21 +58,21 @@ while True:
     newFig()
     plt.plot(dfAllGotResponse["latency"], "bx")
     plt.plot(dfAllNoResponse["latency"], "rx")
-    plt.savefig("output/latencies-all.png")
+    plt.savefig("output/latencies-all.png", bbox_inches='tight')
 
     plt.figure(1)
     plt.figure(1).clear()
     newFig()
     plt.plot(df24hGotResponse["latency"], "bx")
     plt.plot(df24hNoResponse["latency"], "rx")
-    plt.savefig("output/latencies-24h.png")
+    plt.savefig("output/latencies-24h.png", bbox_inches='tight')
 
     plt.figure(2)
     plt.figure(2).clear()
     newFig()
     plt.plot(df1hGotResponse["latency"], "bx")
     plt.plot(df1hNoResponse["latency"], "rx")
-    plt.savefig("output/latencies-1h.png")
+    plt.savefig("output/latencies-1h.png", bbox_inches='tight')
 
     dfAll.to_csv("output/latencies.csv", compression="zip")
 
